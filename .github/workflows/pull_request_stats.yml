@@ -23,13 +23,13 @@ env:
   NEXT_DISABLE_SWC_WASM: 1
 
 jobs:
-  # build:
-  #   uses: ./.github/workflows/build_reusable.yml
-  #   secrets: inherit
-  #   with:
-  #     stepName: 'generate-pull-request-stats'
-  #     uploadSwcArtifact: 'yes'
-  #     uploadAnalyzerArtifacts: 'yes'
+  build:
+    uses: ./.github/workflows/build_reusable.yml
+    secrets: inherit
+    with:
+      stepName: 'generate-pull-request-stats'
+      uploadSwcArtifact: 'yes'
+      uploadAnalyzerArtifacts: 'yes'
 
   stats:
     name: PR Stats
