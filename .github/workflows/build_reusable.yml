@@ -119,7 +119,7 @@ jobs:
 
     defaults:
       run:
-        shell: bash -leo pipefail {0}
+        shell: bash -e pipefail {0}
 
     outputs:
       input_step_key: ${{ steps.var.outputs.input_step_key }}
