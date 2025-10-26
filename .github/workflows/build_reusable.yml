@@ -156,12 +156,18 @@ jobs:
       - name: Setup fnm environment
         run: |
           echo "/home/runner/.local/share/fnm" >> $GITHUB_PATH
+          # Clean up any existing symlinks/directories that might conflict
+          rm -rf ~/.local/share/fnm/aliases/default
+          rm -rf ~/.local/share/fnm/node-versions/default
           eval "$(fnm env --use-on-cd)"
           echo "FNM_DIR=$HOME/.local/share/fnm" >> $GITHUB_ENV
           echo "FNM_MULTISHELL_PATH=$HOME/.local/share/fnm" >> $GITHUB_ENV
           echo "FNM_VERSION_FILE_STRATEGY=local" >> $GITHUB_ENV
+
       - name: Use Node version
-        run: fnm use --install-if-missing ${{ inputs.nodeVersion || env.NODE_LTS_VERSION }}
+        run: |
+          eval "$(fnm env --use-on-cd)"
+          fnm use --install-if-missing ${{ inputs.nodeVersion || env.NODE_LTS_VERSION }}
       - run: fnm default ${{ inputs.nodeVersion || env.NODE_LTS_VERSION }}
       - run: node -v
       - name: Prepare corepack
