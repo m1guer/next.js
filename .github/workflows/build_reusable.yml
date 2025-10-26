@@ -153,7 +153,7 @@ jobs:
         with:
           script: |
             core.setOutput('input_step_key', '${{ inputs.stepName }}'.toLowerCase().replaceAll(/[/.]/g, '-').trim('-'));
-
+      - run: echo "/home/runner/.local/share/fnm" >> $GITHUB_PATH
       - run: fnm use --install-if-missing ${{ inputs.nodeVersion || env.NODE_LTS_VERSION }}
       - run: fnm default ${{ inputs.nodeVersion || env.NODE_LTS_VERSION }}
       - run: node -v
