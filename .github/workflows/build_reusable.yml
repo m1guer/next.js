@@ -119,15 +119,12 @@ jobs:
 
     defaults:
       run:
-        shell: zsh -leo pipefail {0}
+        shell: bash -leo pipefail {0}
 
     outputs:
       input_step_key: ${{ steps.var.outputs.input_step_key }}
 
     steps:
-      - name: Add fnm to PATH
-        run: |
-          echo "/home/runner/.local/share/fnm" >> $GITHUB_PATH
       - name: Check if fnm is installed
         id: check-fnm
         run: |
@@ -142,7 +139,7 @@ jobs:
       - name: Install fnm
         if: steps.check-fnm.outputs.found != 'true'
         run: |
-          curl -fsSL https://fnm.vercel.app/install |zsh
+          curl -fsSL https://fnm.vercel.app/install | bash
           export PATH="/home/runner/.local/share/fnm:$PATH"
           echo "/home/runner/.local/share/fnm" >> $GITHUB_PATH
           fnm env --json | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' | xargs -I {} echo "{}" >> $GITHUB_ENV
@@ -153,21 +150,8 @@ jobs:
         with:
           script: |
             core.setOutput('input_step_key', '${{ inputs.stepName }}'.toLowerCase().replaceAll(/[/.]/g, '-').trim('-'));
-      - name: Setup fnm environment
-        run: |
-          echo "/home/runner/.local/share/fnm" >> $GITHUB_PATH
-          # Clean up any existing symlinks/directories that might conflict
-          rm -rf ~/.local/share/fnm/aliases/default
-          rm -rf ~/.local/share/fnm/node-versions/default
-          eval "$(fnm env --use-on-cd)"
-          echo "FNM_DIR=$HOME/.local/share/fnm" >> $GITHUB_ENV
-          echo "FNM_MULTISHELL_PATH=$HOME/.local/share/fnm" >> $GITHUB_ENV
-          echo "FNM_VERSION_FILE_STRATEGY=local" >> $GITHUB_ENV
 
-      - name: Use Node version
-        run: |
-          eval "$(fnm env --use-on-cd)"
-          fnm use --install-if-missing ${{ inputs.nodeVersion || env.NODE_LTS_VERSION }}
+      - run: fnm use --install-if-missing ${{ inputs.nodeVersion || env.NODE_LTS_VERSION }}
       - run: fnm default ${{ inputs.nodeVersion || env.NODE_LTS_VERSION }}
       - run: node -v
       - name: Prepare corepack
@@ -213,7 +197,7 @@ jobs:
           shared-key: ${{ inputs.rustCacheKey }}-${{ inputs.buildNativeTarget }}-build-${{ inputs.rustBuildProfile }}-${{ hashFiles('.cargo/config.toml') }}
 
       # clean up any previous artifacts to avoid hitting disk space limits
-      # - run: git clean -xdf && rm -rf /tmp/next-repo-*; rm -rf /tmp/next-install-* /tmp/yarn-* /tmp/ncc-cache target
+      - run: git clean -xdf && rm -rf /tmp/next-repo-*; rm -rf /tmp/next-install-* /tmp/yarn-* /tmp/ncc-cache target
 
       # Configure a git user so that Create Next App can initialize git repos during integration tests.
       - name: Set CI git user
@@ -277,7 +261,7 @@ jobs:
         # https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell
         #
         # We must use a login shell: fnm installation may modify the `.profile`
-        shell: zsh -le {0}
+        shell: bash -le {0}
         timeout-minutes: ${{ inputs.timeout_minutes }}
 
       # This file messes up the tests because it influences the build root autodetection.
